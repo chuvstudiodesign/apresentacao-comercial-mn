@@ -204,6 +204,17 @@
   }
 }
 
+/* Mobile overrides */
+@media (max-width: 767px) {
+  :root {
+    --section-padding-x: 20px;
+    --section-padding-y: 40px;
+  }
+  body {
+    overflow-x: hidden;
+  }
+}
+
 /* Hides scrollbar visually while keeping scroll functional */
 .no-scrollbar {
   scrollbar-width: none;
