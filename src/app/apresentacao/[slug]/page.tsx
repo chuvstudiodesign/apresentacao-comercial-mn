@@ -9,10 +9,6 @@ import { commercialPresentations, userPresentations } from "@/data/commercial-pr
 import type { CommercialPresentation } from "@/data/commercial-presentations";
 import { SlideViewport } from "@/components/commercial-presentations/SlideViewport";
 import { ChamferedPanel } from "@/components/chamfered-panel";
-import {
-  QuemSomosEditableSlide,
-  QuemSomosPresentationEditor,
-} from "@/components/commercial-presentations/editor/QuemSomosPresentationEditor";
 
 const BRAND_LOGO_URL =
   "https://raw.githubusercontent.com/chuvstudiodesign/logos-masi-negocios/71ad67702f1e8fc61061ef81a2e9f372788e7dab/Negocios.svg";
@@ -30,7 +26,6 @@ function PresentationPanel({ presentation }: { presentation: CommercialPresentat
   const [viewportHeight, setViewportHeight] = useState(0);
   const viewportWrapRef = useRef<HTMLDivElement>(null);
   const currentSlide = presentation.slides[currentIndex] ?? presentation.slides[0];
-  const isQuemSomos = presentation.slug === "quem-somos-masi-negocios";
 
   useEffect(() => {
     const el = viewportWrapRef.current;
@@ -47,11 +42,7 @@ function PresentationPanel({ presentation }: { presentation: CommercialPresentat
     <div className="flex items-start gap-0" style={{ maxWidth: 2200 }}>
       <div className="flex min-w-0 flex-1 flex-col">
         <div ref={viewportWrapRef}>
-          {isQuemSomos ? (
-            <QuemSomosEditableSlide presentation={presentation} slide={currentSlide} />
-          ) : (
-            <SlideViewport presentation={presentation} slide={currentSlide} />
-          )}
+          <SlideViewport presentation={presentation} slide={currentSlide} />
         </div>
         <div className="mt-3 flex items-center justify-between">
           <span className="rounded-full bg-[#ECECEC] px-4 py-2 font-mono text-[12px] font-bold text-foreground">
@@ -258,13 +249,7 @@ export default function PresentationPage({ params }: { params: Promise<{ slug: s
                       <p className="ds-section-subtitle">{presentation.subtitle}</p>
                     )}
                   </div>
-                  {presentation.slug === "quem-somos-masi-negocios" ? (
-                    <QuemSomosPresentationEditor presentation={presentation}>
-                      <PresentationPanel presentation={presentation} />
-                    </QuemSomosPresentationEditor>
-                  ) : (
-                    <PresentationPanel presentation={presentation} />
-                  )}
+                  <PresentationPanel presentation={presentation} />
                 </div>
               </ChamferedPanel>
             </section>
