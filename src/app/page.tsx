@@ -57,27 +57,45 @@ const SLIDE_SUMMARIES = [
 const SLIDE_W = 1600;
 const SLIDE_H = 900;
 const DISPLAY_W = 680;
-const DISPLAY_H = Math.round(DISPLAY_W * (SLIDE_H / SLIDE_W));
-const DISPLAY_SCALE = DISPLAY_W / SLIDE_W;
 const OFFSET_Y = 36;
 const OFFSET_Z = 60;
-const FAN_X = DISPLAY_W * 0.3;
-const HERO_STACK_X_BY_INDEX = [-FAN_X, 0, FAN_X] as const;
 const DOWNLOAD_PREVIEW_W = 560;
-const DOWNLOAD_PREVIEW_H = Math.round(DOWNLOAD_PREVIEW_W * (SLIDE_H / SLIDE_W));
-const DOWNLOAD_PREVIEW_SCALE = DOWNLOAD_PREVIEW_W / SLIDE_W;
 
 function StackedSlidesPreview() {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [effectiveW, setEffectiveW] = useState(DISPLAY_W);
   const progressRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const slideDivs = useRef<(HTMLDivElement | null)[]>([]);
+  const fanXRef = useRef(DISPLAY_W * 0.3);
   const slides = presentation.slides.slice(0, 3);
 
   useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setEffectiveW(Math.min(DISPLAY_W, Math.floor(entry.contentRect.width)));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const fx = effectiveW * 0.3;
+    fanXRef.current = fx;
+    const p = progressRef.current;
+    slideDivs.current.forEach((el, i) => {
+      if (!el) return;
+      el.style.transform = `translateZ(${-i * OFFSET_Z}px) translateX(${[-fx, 0, fx][i] * p}px)`;
+    });
+  }, [effectiveW]);
+
+  useEffect(() => {
     function applyProgress(p: number) {
+      const fx = fanXRef.current;
       slideDivs.current.forEach((el, i) => {
         if (!el) return;
-        el.style.transform = `translateZ(${-i * OFFSET_Z}px) translateX(${HERO_STACK_X_BY_INDEX[i as 0 | 1 | 2] * p}px)`;
+        el.style.transform = `translateZ(${-i * OFFSET_Z}px) translateX(${[-fx, 0, fx][i] * p}px)`;
       });
     }
     function onScroll() {
@@ -98,39 +116,44 @@ function StackedSlidesPreview() {
     };
   }, []);
 
+  const displayH = Math.round(effectiveW * (SLIDE_H / SLIDE_W));
+  const displayScale = effectiveW / SLIDE_W;
+
   return (
-    <div
-      className="relative mx-auto"
-      style={{
-        width: DISPLAY_W,
-        height: DISPLAY_H + OFFSET_Y * (slides.length - 1),
-        perspective: "1400px",
-        perspectiveOrigin: "50% 30%",
-      }}
-    >
-      {slides.map((slide, i) => (
-        <div
-          key={slide.id}
-          ref={(el) => { slideDivs.current[i] = el; }}
-          className="absolute left-0 overflow-hidden rounded-[8px]"
-          style={{
-            width: DISPLAY_W,
-            height: DISPLAY_H,
-            top: i * OFFSET_Y,
-            zIndex: slides.length - i,
-            willChange: "transform",
-            transform: `translateZ(${-i * OFFSET_Z}px) translateX(0px)`,
-            boxShadow: `0 ${10 + i * 12}px ${24 + i * 20}px rgba(0,0,0,${0.16 + i * 0.07})`,
-          }}
-        >
+    <div ref={wrapperRef} className="w-full">
+      <div
+        className="relative mx-auto"
+        style={{
+          width: effectiveW,
+          height: displayH + OFFSET_Y * (slides.length - 1),
+          perspective: "1400px",
+          perspectiveOrigin: "50% 30%",
+        }}
+      >
+        {slides.map((slide, i) => (
           <div
-            className="origin-top-left"
-            style={{ width: SLIDE_W, height: SLIDE_H, transform: `scale(${DISPLAY_SCALE})` }}
+            key={slide.id}
+            ref={(el) => { slideDivs.current[i] = el; }}
+            className="absolute left-0 overflow-hidden rounded-[8px]"
+            style={{
+              width: effectiveW,
+              height: displayH,
+              top: i * OFFSET_Y,
+              zIndex: slides.length - i,
+              willChange: "transform",
+              transform: `translateZ(${-i * OFFSET_Z}px) translateX(0px)`,
+              boxShadow: `0 ${10 + i * 12}px ${24 + i * 20}px rgba(0,0,0,${0.16 + i * 0.07})`,
+            }}
           >
-            <PresentationSlide presentation={presentation} slide={slide} />
+            <div
+              className="origin-top-left"
+              style={{ width: SLIDE_W, height: SLIDE_H, transform: `scale(${displayScale})` }}
+            >
+              <PresentationSlide presentation={presentation} slide={slide} />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
@@ -197,12 +220,8 @@ function HomePresentationPanel({ presentation }: { presentation: CommercialPrese
         </div>
       </div>
 
-      {/* ── Sidebar direita ── */}
-      {/*
-        Toggle (vinheta) sempre visível, no canto superior esquerdo do bloco sidebar.
-        Quando o painel fecha (width → 0), o toggle fica encostado na borda direita do slide.
-      */}
-      <div className="flex items-start pl-2">
+      {/* ── Sidebar direita — oculta em mobile ── */}
+      <div className="hidden md:flex items-start pl-2">
         {/* Vinheta de toggle — canto superior, estilo style guide */}
         <button
           type="button"
@@ -374,10 +393,22 @@ function DownloadFormatHeader() {
 
 function DownloadSlideStack({ presentation }: { presentation: CommercialPresentation }) {
   const slides = presentation.slides.slice(0, 6);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [effectiveW, setEffectiveW] = useState(DOWNLOAD_PREVIEW_W);
   const progressRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const stackRef = useRef<HTMLDivElement>(null);
   const slideDivs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setEffectiveW(Math.min(DOWNLOAD_PREVIEW_W, Math.floor(entry.contentRect.width)));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   function applyProgress(p: number) {
     slideDivs.current.forEach((el, index) => {
@@ -386,7 +417,6 @@ function DownloadSlideStack({ presentation }: { presentation: CommercialPresenta
       const y = index * (5 + p * 90);
       const x = (index % 2 === 0 ? -1 : 1) * index * 3 * p;
       const depth = index * (90 + p * 60);
-
       el.style.transform = `translate3d(${x}px, ${y}px, ${-depth}px) scale(${scale})`;
     });
   }
@@ -395,27 +425,22 @@ function DownloadSlideStack({ presentation }: { presentation: CommercialPresenta
     function updateFromScroll() {
       const el = stackRef.current;
       if (!el) return;
-
       const rect = el.getBoundingClientRect();
       const viewportHeight = window.innerHeight || 1;
       const start = viewportHeight * 0.6;
       const end = viewportHeight * 0.28;
       const next = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
-
       if (Math.abs(next - progressRef.current) < 0.005) return;
       progressRef.current = next;
-
       if (rafRef.current !== null) return;
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = null;
         applyProgress(progressRef.current);
       });
     }
-
     window.addEventListener("scroll", updateFromScroll, { passive: true });
     window.addEventListener("resize", updateFromScroll);
     updateFromScroll();
-
     return () => {
       window.removeEventListener("scroll", updateFromScroll);
       window.removeEventListener("resize", updateFromScroll);
@@ -426,9 +451,7 @@ function DownloadSlideStack({ presentation }: { presentation: CommercialPresenta
   function onWheel(event: React.WheelEvent<HTMLDivElement>) {
     const next = Math.max(0, Math.min(1, progressRef.current + event.deltaY / 650));
     if (next === progressRef.current) return;
-
     progressRef.current = next;
-
     if (rafRef.current !== null) return;
     rafRef.current = requestAnimationFrame(() => {
       rafRef.current = null;
@@ -436,28 +459,31 @@ function DownloadSlideStack({ presentation }: { presentation: CommercialPresenta
     });
   }
 
+  const previewH = Math.round(effectiveW * (SLIDE_H / SLIDE_W));
+  const previewScale = effectiveW / SLIDE_W;
+
   return (
-    <div
-      ref={stackRef}
-      className="relative mx-auto"
-      onWheel={onWheel}
-      style={{
-        width: DOWNLOAD_PREVIEW_W,
-        height: DOWNLOAD_PREVIEW_H + 360,
-        perspective: "1800px",
-        perspectiveOrigin: "50% 5%",
-      }}
-    >
-      {slides.map((slide, index) => {
-        return (
+    <div ref={wrapperRef} className="h-full w-full">
+      <div
+        ref={stackRef}
+        className="relative mx-auto"
+        onWheel={onWheel}
+        style={{
+          width: effectiveW,
+          height: previewH + 360,
+          perspective: "1800px",
+          perspectiveOrigin: "50% 5%",
+        }}
+      >
+        {slides.map((slide, index) => (
           <div
             key={slide.id}
             ref={(el) => { slideDivs.current[index] = el; }}
             className="absolute left-0 overflow-hidden rounded-[8px]"
             style={{
               top: 0,
-              width: DOWNLOAD_PREVIEW_W,
-              height: DOWNLOAD_PREVIEW_H,
+              width: effectiveW,
+              height: previewH,
               zIndex: slides.length - index,
               transformOrigin: "50% 0%",
               willChange: "transform",
@@ -467,17 +493,13 @@ function DownloadSlideStack({ presentation }: { presentation: CommercialPresenta
           >
             <div
               className="origin-top-left"
-              style={{
-                width: SLIDE_W,
-                height: SLIDE_H,
-                transform: `scale(${DOWNLOAD_PREVIEW_SCALE})`,
-              }}
+              style={{ width: SLIDE_W, height: SLIDE_H, transform: `scale(${previewScale})` }}
             >
               <PresentationSlide presentation={presentation} slide={slide} />
             </div>
           </div>
-        );
-      })}
+        ))}
+      </div>
     </div>
   );
 }
@@ -485,20 +507,20 @@ function DownloadSlideStack({ presentation }: { presentation: CommercialPresenta
 function PowerPointDownloadSection({ presentation }: { presentation: CommercialPresentation }) {
   return (
     <div className="grid items-stretch gap-[30px] lg:grid-cols-[minmax(0,1.3fr)_minmax(288px,0.76fr)]">
-      <div className="flex min-h-[580px] flex-col overflow-hidden rounded-[10px] bg-white p-[30px] shadow-[var(--shadow-card)]">
+      <div className="flex min-h-[300px] flex-col overflow-hidden rounded-[10px] bg-white p-[30px] shadow-[var(--shadow-card)] lg:min-h-[580px]">
         <DownloadFormatHeader />
 
-        <div className="relative mt-8 flex h-[460px] items-start justify-center pt-8">
+        <div className="relative mt-8 flex h-[240px] items-start justify-center pt-8 lg:h-[460px]">
           <DownloadSlideStack presentation={presentation} />
         </div>
       </div>
 
-      <div className="flex min-h-[580px] flex-col justify-between rounded-[10px] bg-[#0C1C16] p-[30px] text-white shadow-[var(--shadow-card)]">
+      <div className="flex min-h-[300px] flex-col justify-between rounded-[10px] bg-[#0C1C16] p-[30px] text-white shadow-[var(--shadow-card)] lg:min-h-[580px]">
         <div>
           <p className="font-mono text-[12px] font-bold uppercase text-[#AFF000]">
             Versão para apresentação
           </p>
-          <h2 className="mt-4 max-w-xl text-[44px] font-extrabold leading-[1.05] tracking-normal">
+          <h2 className="mt-4 max-w-xl text-[30px] font-extrabold leading-[1.05] tracking-normal lg:text-[44px]">
             Esta apresentação está disponível em PowerPoint e Figma.
           </h2>
           <p className="mt-5 max-w-lg text-[16px] leading-7 text-white/72">
@@ -709,7 +731,7 @@ export default function Home() {
               centered
               hideSeparator
             >
-              <div className="mx-auto w-[90%]">
+              <div className="mx-auto w-full md:w-[90%]">
                 <HomePresentationPanel presentation={presentation} />
               </div>
             </Section>
@@ -721,7 +743,7 @@ export default function Home() {
               centered
               hideSeparator
             >
-              <div className="mx-auto w-[90%]">
+              <div className="mx-auto w-full md:w-[90%]">
                 <PowerPointDownloadSection presentation={presentation} />
               </div>
             </Section>

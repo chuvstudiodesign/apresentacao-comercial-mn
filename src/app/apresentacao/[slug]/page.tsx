@@ -67,7 +67,7 @@ function PresentationPanel({ presentation }: { presentation: CommercialPresentat
         </div>
       </div>
 
-      <div className="flex items-start pl-2">
+      <div className="hidden md:flex items-start pl-2">
         <button
           type="button"
           onClick={() => setSidebarOpen((v) => !v)}
