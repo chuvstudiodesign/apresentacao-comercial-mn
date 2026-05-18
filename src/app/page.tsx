@@ -651,12 +651,14 @@ export default function Home() {
 
       {/* Floating navbar */}
       <header
-        className="fixed z-30 flex items-center justify-between rounded-[10px] bg-[#ececec] border border-white left-[10px] right-[10px] pl-[10px] pr-[10px] md:left-[30px] md:right-[30px] md:pl-[30px] md:pr-[30px]"
+        className="fixed z-30 flex items-center justify-between rounded-[10px] bg-[#ececec] border border-white left-[10px] right-[10px] pl-[20px] pr-[20px] md:left-[30px] md:right-[30px] md:pl-[30px] md:pr-[30px]"
         style={{ top: NAV_TOP, height: NAV_H }}
       >
         <Link href="/" className="block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={BRAND_LOGO_URL} alt="Masi Negócios" className="h-[19px] w-auto" />
+          <img src="/logos/symbol/masi-symbol-dark.svg" alt="Masi" className="block md:hidden" style={{ width: 24, height: 24 }} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={BRAND_LOGO_URL} alt="Masi Negócios" className="hidden md:block h-[19px] w-auto" />
         </Link>
         <div className="flex min-w-0 items-center gap-3">
           <a
