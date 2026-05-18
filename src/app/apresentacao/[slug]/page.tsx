@@ -53,8 +53,8 @@ function PresentationPanel({ presentation }: { presentation: CommercialPresentat
             <SlideViewport presentation={presentation} slide={currentSlide} />
           )}
         </div>
-        <div className="mt-3 flex items-center justify-between">
-          <span className="rounded-full bg-[#ECECEC] px-4 py-2 font-mono text-[12px] font-bold text-foreground">
+        <div className="mt-3 flex items-center justify-end md:justify-between">
+          <span className="hidden md:inline-flex rounded-full bg-[#ECECEC] px-4 py-2 font-mono text-[12px] font-bold text-foreground">
             {String(currentIndex + 1).padStart(2, "0")} de {presentation.slides.length}
           </span>
           <div className="flex items-center gap-2">
@@ -241,7 +241,7 @@ export default function PresentationPage({ params }: { params: Promise<{ slug: s
         </div>
       </header>
 
-      <div className="px-[30px] pb-[30px]" style={{ paddingTop: NAV_TOP + NAV_H + NAV_TOP }}>
+      <div className="px-[10px] pb-[10px] md:px-[30px] md:pb-[30px]" style={{ paddingTop: NAV_TOP + NAV_H + NAV_TOP }}>
         <main>
           <div className="ds-page">
             <section className="w-full">

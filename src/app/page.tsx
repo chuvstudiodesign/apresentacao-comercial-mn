@@ -24,7 +24,7 @@ const NAV_X = 30;
 
 const HERO_TITLE = "Sistema de criação de apresentação comercial.";
 const HERO_TITLE_CLASS =
-  "max-w-5xl text-center text-[62px] font-extrabold leading-[1.05] tracking-normal text-foreground";
+  "max-w-5xl text-center text-[34px] md:text-[62px] font-extrabold leading-[1.05] tracking-normal text-foreground";
 
 const presentation = commercialPresentations[0];
 
@@ -195,8 +195,8 @@ function HomePresentationPanel({ presentation }: { presentation: CommercialPrese
         </div>
 
         {/* Controles abaixo do slide: número (esquerda) + botões (direita) */}
-        <div className="mt-3 flex items-center justify-between">
-          <span className="rounded-full bg-[#ECECEC] px-4 py-2 font-mono text-[12px] font-bold text-foreground">
+        <div className="mt-3 flex items-center justify-end md:justify-between">
+          <span className="hidden md:inline-flex rounded-full bg-[#ECECEC] px-4 py-2 font-mono text-[12px] font-bold text-foreground">
             {String(currentIndex + 1).padStart(2, "0")} de {presentation.slides.length}
           </span>
           <div className="flex items-center gap-2">
@@ -678,7 +678,7 @@ export default function Home() {
 
       {/* Main content — cresce com a viewport, sem limite artificial */}
       <div
-        className="px-[30px] pb-[30px]"
+        className="px-[10px] pb-[10px] md:px-[30px] md:pb-[30px]"
         style={{ paddingTop: NAV_TOP + NAV_H + NAV_TOP }}
       >
         <main>
