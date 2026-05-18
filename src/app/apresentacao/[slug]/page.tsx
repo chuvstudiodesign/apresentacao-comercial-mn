@@ -212,11 +212,19 @@ export default function PresentationPage({ params }: { params: Promise<{ slug: s
             </Link>
           ))}
         </nav>
+        <div className="mt-3 border-t border-white/50 pt-3 md:hidden">
+          <a
+            href="https://www.masinegocios.com.br/design-system"
+            className="block rounded-[10px] px-3 py-2.5 text-[13px] font-medium text-foreground transition hover:bg-black/5"
+          >
+            Design System
+          </a>
+        </div>
       </aside>
 
       <header
-        className="fixed z-30 flex items-center justify-between rounded-[10px] border border-white bg-[#ececec]"
-        style={{ top: NAV_TOP, left: NAV_X, right: NAV_X, height: NAV_H, paddingLeft: NAV_X, paddingRight: NAV_X }}
+        className="fixed z-30 flex items-center justify-between rounded-[10px] border border-white bg-[#ececec] left-[10px] right-[10px] pl-[10px] pr-[10px] md:left-[30px] md:right-[30px] md:pl-[30px] md:pr-[30px]"
+        style={{ top: NAV_TOP, height: NAV_H }}
       >
         <Link href="/" className="block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -225,7 +233,7 @@ export default function PresentationPage({ params }: { params: Promise<{ slug: s
         <div className="flex min-w-0 items-center gap-3">
           <a
             href="https://www.masinegocios.com.br/design-system"
-            className="whitespace-nowrap rounded-[8px] px-3 py-2 text-[13px] font-semibold text-foreground transition-colors hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
+            className="hidden md:block whitespace-nowrap rounded-[8px] px-3 py-2 text-[13px] font-semibold text-foreground transition-colors hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
           >
             Design System
           </a>
