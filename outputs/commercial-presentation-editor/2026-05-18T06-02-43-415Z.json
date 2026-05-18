@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-05-18T06:20:17.363Z",
+  "savedAt": "2026-05-18T06:02:43.414Z",
   "version": 1,
   "presentationSlug": "quem-somos-masi-negocios",
   "slides": [
@@ -10,14 +10,6 @@
         "y": 381,
         "width": 702,
         "height": 326
-      },
-      "groups": {
-        "main": {
-          "x": 90,
-          "y": 381,
-          "width": 702,
-          "height": 326
-        }
       },
       "image": {
         "x": 696.477341389728,
@@ -42,17 +34,9 @@
         "width": 900,
         "height": 520
       },
-      "groups": {
-        "main": {
-          "x": 86,
-          "y": 202,
-          "width": 727.190332326284,
-          "height": 520
-        }
-      },
       "texts": {
         "title": "Crescimento que transforma",
-        "body": "A MASI existe para desenvolver empresários \ne construir empresas mais fortes.\n",
+        "body": "A MASI existe para desenvolver empresários e construir empresas mais fortes.",
         "quote": "O crescimento das empresas transforma pessoas, mercados e o país."
       }
     },
@@ -64,31 +48,11 @@
         "width": 1420,
         "height": 630
       },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 421.4501510574018,
-          "height": 560
-        },
-        "bullets": {
-          "x": 650,
-          "y": 567.583081570997,
-          "width": 790,
-          "height": 210
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 630
-        }
-      },
       "image": {
-        "x": 607.7643504531723,
-        "y": 41.23867069486411,
-        "width": 858.4894259818731,
-        "height": 518.7915407854985
+        "x": 870,
+        "y": 150,
+        "width": 560,
+        "height": 520
       },
       "texts": {
         "title": "Hub de experiências",
@@ -109,26 +73,6 @@
         "width": 1420,
         "height": 630
       },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 421.4501510574018,
-          "height": 560
-        },
-        "bullets": {
-          "x": 650,
-          "y": 570,
-          "width": 790,
-          "height": 210
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 630
-        }
-      },
       "texts": {
         "title": "Empresários buscam evolução",
         "body": "Crescer exige inovação, gestão, estratégia e acesso a conhecimento prático de quem já construiu.",
@@ -146,26 +90,6 @@
         "y": 90,
         "width": 1420,
         "height": 630
-      },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 500,
-          "height": 560
-        },
-        "bullets": {
-          "x": 650,
-          "y": 570,
-          "width": 790,
-          "height": 210
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 630
-        }
       },
       "texts": {
         "title": "O crescimento trava",
@@ -186,31 +110,11 @@
         "width": 1420,
         "height": 630
       },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 500,
-          "height": 560
-        },
-        "bullets": {
-          "x": 650,
-          "y": 570,
-          "width": 790,
-          "height": 210
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 630
-        }
-      },
       "image": {
-        "x": 560.6344410876134,
-        "y": 8.610271903323259,
-        "width": 897.1601208459215,
-        "height": 556.2537764350453
+        "x": 870,
+        "y": 150,
+        "width": 560,
+        "height": 520
       },
       "texts": {
         "title": "Destravar o próximo nível",
@@ -228,32 +132,6 @@
         "y": 90,
         "width": 1420,
         "height": 650
-      },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 580,
-          "height": 185
-        },
-        "body": {
-          "x": 750,
-          "y": 102,
-          "width": 560,
-          "height": 120
-        },
-        "cards": {
-          "x": 90,
-          "y": 305,
-          "width": 1420,
-          "height": 460
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 650
-        }
       },
       "texts": {
         "title": "Como atuamos",
@@ -277,26 +155,6 @@
         "width": 1420,
         "height": 620
       },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 430,
-          "height": 380
-        },
-        "cards": {
-          "x": 590,
-          "y": 90,
-          "width": 860,
-          "height": 560
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 620
-        }
-      },
       "texts": {
         "title": "Conexões que aceleram",
         "body": "Empresários crescem melhor quando acessam especialistas, mentores e pares que enfrentam desafios reais.",
@@ -317,14 +175,6 @@
         "width": 900,
         "height": 520
       },
-      "groups": {
-        "main": {
-          "x": 86,
-          "y": 202,
-          "width": 608.761329305136,
-          "height": 520
-        }
-      },
       "texts": {
         "title": "Conhecimento que vem da prática",
         "body": "A Masi conecta teoria útil a decisões, vendas, gestão, cultura e execução.",
@@ -339,31 +189,11 @@
         "width": 1420,
         "height": 630
       },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 500,
-          "height": 560
-        },
-        "bullets": {
-          "x": 650,
-          "y": 570,
-          "width": 790,
-          "height": 210
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 630
-        }
-      },
       "image": {
-        "x": 577.5528700906344,
-        "y": 18.27794561933534,
-        "width": 906.8277945619336,
-        "height": 633.595166163142
+        "x": 870,
+        "y": 150,
+        "width": 560,
+        "height": 520
       },
       "texts": {
         "title": "Repertório de empresas que escalaram",
@@ -382,26 +212,6 @@
         "y": 90,
         "width": 1420,
         "height": 610
-      },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 520,
-          "height": 420
-        },
-        "stats": {
-          "x": 700,
-          "y": 90,
-          "width": 800,
-          "height": 520
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 610
-        }
       },
       "texts": {
         "title": "Impacto real",
@@ -422,26 +232,6 @@
         "y": 90,
         "width": 1420,
         "height": 620
-      },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 430,
-          "height": 380
-        },
-        "cards": {
-          "x": 590,
-          "y": 90,
-          "width": 860,
-          "height": 560
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 620
-        }
       },
       "texts": {
         "title": "Resultados que importam",
@@ -465,19 +255,11 @@
         "width": 780,
         "height": 560
       },
-      "groups": {
-        "main": {
-          "x": 86,
-          "y": 174,
-          "width": 498.42900302114805,
-          "height": 560
-        }
-      },
       "image": {
-        "x": 573.1722054380665,
-        "y": 7.6132930513596015,
-        "width": 913.202416918429,
-        "height": 808.6404833836858
+        "x": 920,
+        "y": 120,
+        "width": 570,
+        "height": 660
       },
       "texts": {
         "title": "Empresários não precisam crescer sozinhos",
@@ -492,26 +274,6 @@
         "y": 90,
         "width": 1420,
         "height": 620
-      },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 430,
-          "height": 380
-        },
-        "cards": {
-          "x": 590,
-          "y": 90,
-          "width": 860,
-          "height": 560
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 620
-        }
       },
       "texts": {
         "title": "Um ecossistema em movimento",
@@ -535,26 +297,6 @@
         "width": 1420,
         "height": 620
       },
-      "groups": {
-        "heading": {
-          "x": 90,
-          "y": 90,
-          "width": 430,
-          "height": 380
-        },
-        "cards": {
-          "x": 590,
-          "y": 90,
-          "width": 860,
-          "height": 560
-        },
-        "main": {
-          "x": 90,
-          "y": 90,
-          "width": 1420,
-          "height": 620
-        }
-      },
       "texts": {
         "title": "Onde ajudamos a evoluir",
         "body": "A Masi atua nos temas que mais destravam o próximo nível de crescimento das empresas.",
@@ -576,20 +318,6 @@
         "y": 270,
         "width": 1180,
         "height": 430
-      },
-      "groups": {
-        "main": {
-          "x": 86,
-          "y": 270,
-          "width": 707.4924471299092,
-          "height": 430
-        },
-        "quote": {
-          "x": 1051.6012084592144,
-          "y": 432.416918429003,
-          "width": 420,
-          "height": 220
-        }
       },
       "texts": {
         "title": "Construir empresas melhores para construir um país melhor",

@@ -1,4 +1,13 @@
 import type { CommercialPresentation } from "./types";
+import planejamentoSlide01Image from "../../../Imagens/planejamento-estrategico-2026/slide-01.png";
+import planejamentoSlide05Image from "../../../Imagens/planejamento-estrategico-2026/slide-05.png";
+import planejamentoSlide10Image from "../../../Imagens/planejamento-estrategico-2026/slide-10.png";
+import planejamentoSlide12Image from "../../../Imagens/planejamento-estrategico-2026/slide-12.png";
+import modeloGestaoSlide01Image from "../../../Imagens/modelo-gestao/slide-01.png";
+import modeloGestaoSlide06Image from "../../../Imagens/modelo-gestao/slide-06.png";
+import modeloGestaoSlide10Image from "../../../Imagens/modelo-gestao/slide-10.png";
+import modeloGestaoSlide17Image from "../../../Imagens/modelo-gestao/slide-17.png";
+import modeloGestaoSlide19Image from "../../../Imagens/modelo-gestao/slide-19.png";
 import quemSomosSlide01Image from "../../../Imagens/quem-somos-masi-negocios/slide-01.png";
 import quemSomosSlide03Image from "../../../Imagens/quem-somos-masi-negocios/slide-03.png";
 import quemSomosSlide06Image from "../../../Imagens/quem-somos-masi-negocios/slide-06.png";
@@ -30,6 +39,9 @@ export const userPresentations: CommercialPresentation[] = [
         subtitle: "7 e 8 de fevereiro — São Paulo",
         body: "2 dias de imersão presencial para definir o planejamento estratégico do seu negócio com quem fez o iFood.",
         bullets: ["Workshop", "Estratégia", "2026"],
+        imageDirection: "Maquete técnica premium com bússola central, rotas, microvegetação e baixo relevo com PLANEJAMENTO, DIREÇÃO, ROTAS e 2026.",
+        imageSrc: planejamentoSlide01Image,
+        imageAlt: "Maquete técnica branca com bússola central, rotas, microvegetação e gravações de planejamento estratégico.",
       },
       // 02 — Tese
       {
@@ -81,6 +93,9 @@ export const userPresentations: CommercialPresentation[] = [
         footer: "MASI Negócios - Design System",
         title: "O Workshop por dentro",
         body: "No Jive House, espaço premium no coração da Faria Lima, dois dias dedicados ao método que escalou iFood, PK XD e PlayKids.",
+        imageDirection: "Bancada modular premium com placas DIA 1 e DIA 2, núcleo METODO e tiles DIAGNOSTICO, APLICAR e PLANO gravados em baixo relevo.",
+        imageSrc: planejamentoSlide05Image,
+        imageAlt: "Bancada modular premium com placas Dia 1 e Dia 2 e tiles de diagnóstico, aplicação e plano.",
       },
       // 06 — Metodologia: pilares
       {
@@ -153,6 +168,9 @@ export const userPresentations: CommercialPresentation[] = [
         title: "O custo real",
         body: "Mais um ano sem planejamento estratégico custa milhões em energia desperdiçada e tempo que nunca volta.",
         quote: "Custa muito mais do que imagina.",
+        imageDirection: "Mecanismo técnico com alavanca AGIR, medidor CUSTO REAL, área SEM PLANO e rota FOCO, representando energia desperdiçada por falta de ação.",
+        imageSrc: planejamentoSlide10Image,
+        imageAlt: "Mecanismo técnico com alavanca Agir, medidor Custo Real e rota Foco bloqueada pela falta de plano.",
       },
       // 11 — Investimento
       {
@@ -179,6 +197,9 @@ export const userPresentations: CommercialPresentation[] = [
         title: "Feito para tomadores de decisão",
         quote: "Com 20% de desconto, leve até 2 pessoas a mais pela metade do valor.",
         body: "Decisões estratégicas precisam ser tomadas por quem tem poder de implementá-las.",
+        imageDirection: "Dispositivo de alinhamento com blocos CEO, SOCIOS e LIDERES conectados ao núcleo DECISAO e base ALINHAMENTO.",
+        imageSrc: planejamentoSlide12Image,
+        imageAlt: "Dispositivo com blocos CEO, sócios e líderes conectados a um núcleo de decisão e alinhamento.",
       },
       // 13 — Bônus: Check-ins
       {
@@ -234,6 +255,9 @@ export const userPresentations: CommercialPresentation[] = [
         subtitle: "Pessoas, processos e estratégia alinhados.",
         body: "É o DNA que guia operação consistente, decisões ágeis e objetivos de longo prazo da organização.",
         bullets: ["Gestão", "Estratégia", "Resultados"],
+        imageDirection: "Núcleo de DNA de gestão conectado a módulos PESSOAS, PROCESSOS, ESTRATEGIA e RESULTADOS, com base orgânica de negócio vivo.",
+        imageSrc: modeloGestaoSlide01Image,
+        imageAlt: "Núcleo de DNA em acrílico conectado a módulos de pessoas, processos, estratégia e resultados.",
       },
       // 02 — O que é Planejamento Estratégico
       {
@@ -307,6 +331,9 @@ export const userPresentations: CommercialPresentation[] = [
           "KPIs · Scoreboards",
           "Self Evaluation · Bonus Model",
         ],
+        imageDirection: "Torre estratégica em dez camadas com baixo relevo para propósito, valores, intenções, BHAG, estratégias, projetos, KPIs, scoreboards, autoavaliação e bônus.",
+        imageSrc: modeloGestaoSlide06Image,
+        imageAlt: "Torre técnica com dez camadas nomeadas representando a estrutura estratégica de gestão.",
       },
       // 07 — O ciclo do planejamento
       {
@@ -366,6 +393,9 @@ export const userPresentations: CommercialPresentation[] = [
         title: "Direção Estratégica",
         body: "Antes de qualquer plano, é preciso saber para onde a empresa está indo. Sem norte, não há estratégia.",
         quote: "Onde queremos chegar?",
+        imageDirection: "Dispositivo de direção estratégica com bússola NORTE, rota translúcida e destino VISÃO sobre terreno orgânico.",
+        imageSrc: modeloGestaoSlide10Image,
+        imageAlt: "Dispositivo com bússola, rota translúcida e destino Visão representando direção estratégica.",
       },
       // 11 — Princípio: A Direção nos inspira
       {
@@ -467,6 +497,9 @@ export const userPresentations: CommercialPresentation[] = [
         title: "Pausa para Almoço",
         body: "Networking, troca de experiências e conexão entre empresários.",
         quote: "12:00 → 14:00",
+        imageDirection: "Mesa técnica de conexão com hub PAUSA, pontes NETWORKING e TROCA, conectando ilhas orgânicas de negócios.",
+        imageSrc: modeloGestaoSlide17Image,
+        imageAlt: "Hub técnico de pausa conectando ilhas de negócios com pontes de networking e troca.",
       },
       // 18 — DIAGNÓSTICO (virada de módulo)
       {
@@ -489,6 +522,9 @@ export const userPresentations: CommercialPresentation[] = [
         title: "Por que o diagnóstico é crucial?",
         quote: "Estratégia sem diagnóstico não é plano, é apenas um palpite caro.",
         body: "O diagnóstico honesto é o ponto de partida de qualquer estratégia que funciona na prática.",
+        imageDirection: "Scanner DIAGNOSTICO sobre maquete de negócio, separando PALPITE de PLANO e destacando evidências em baixo relevo.",
+        imageSrc: modeloGestaoSlide19Image,
+        imageAlt: "Scanner de diagnóstico sobre maquete de negócio mostrando palpite, plano e evidência.",
       },
       // 20 — Framework SWOT
       {

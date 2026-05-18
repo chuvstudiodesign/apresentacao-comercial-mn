@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Download, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { commercialPresentations, userPresentations } from "@/data/commercial-presentations";
 import type { CommercialPresentation } from "@/data/commercial-presentations";
@@ -11,7 +11,6 @@ import type { CommercialPresentation } from "@/data/commercial-presentations";
 const allPresentations = [...commercialPresentations, ...userPresentations];
 import { PresentationSlide } from "@/components/commercial-presentations/PresentationSlide";
 import { SlideViewport } from "@/components/commercial-presentations/SlideViewport";
-import { PageMappingSection } from "@/components/commercial-presentations/PageMappingSection";
 import { Section } from "@/app/styleguide/foundation-sections";
 import { ChamferedPanel } from "@/components/chamfered-panel";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
@@ -63,19 +62,22 @@ const DISPLAY_SCALE = DISPLAY_W / SLIDE_W;
 const OFFSET_Y = 36;
 const OFFSET_Z = 60;
 const FAN_X = DISPLAY_W * 0.3;
+const HERO_STACK_X_BY_INDEX = [-FAN_X, 0, FAN_X] as const;
+const DOWNLOAD_PREVIEW_W = 560;
+const DOWNLOAD_PREVIEW_H = Math.round(DOWNLOAD_PREVIEW_W * (SLIDE_H / SLIDE_W));
+const DOWNLOAD_PREVIEW_SCALE = DOWNLOAD_PREVIEW_W / SLIDE_W;
 
 function StackedSlidesPreview() {
   const progressRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const slideDivs = useRef<(HTMLDivElement | null)[]>([]);
   const slides = presentation.slides.slice(0, 3);
-  const xByIndex = [-FAN_X, 0, FAN_X] as const;
 
   useEffect(() => {
     function applyProgress(p: number) {
       slideDivs.current.forEach((el, i) => {
         if (!el) return;
-        el.style.transform = `translateZ(${-i * OFFSET_Z}px) translateX(${xByIndex[i as 0 | 1 | 2] * p}px)`;
+        el.style.transform = `translateZ(${-i * OFFSET_Z}px) translateX(${HERO_STACK_X_BY_INDEX[i as 0 | 1 | 2] * p}px)`;
       });
     }
     function onScroll() {
@@ -94,7 +96,7 @@ function StackedSlidesPreview() {
       window.removeEventListener("scroll", onScroll);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div
@@ -288,6 +290,262 @@ function HomePresentationPanel({ presentation }: { presentation: CommercialPrese
   );
 }
 
+// ── PowerPoint download section ───────────────────────────────────────────────
+
+function PowerPointMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={cn("size-7", className)}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+    >
+      <path
+        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
+        fill="currentColor"
+      />
+      <path d="M14 2l6 6h-6V2z" fill="white" opacity="0.25" />
+      <text
+        x="7"
+        y="17.5"
+        fontSize="9"
+        fontWeight="900"
+        fill="white"
+        fontFamily="system-ui,-apple-system,sans-serif"
+      >
+        P
+      </text>
+    </svg>
+  );
+}
+
+function FigmaMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 38 57"
+      className={cn("h-[25px] w-auto", className)}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+    >
+      {/* top-left cell — rounded left side */}
+      <path d="M0 9.5A9.5 9.5 0 0 1 9.5 0H19v19H9.5A9.5 9.5 0 0 1 0 9.5z" />
+      {/* top-right cell — rounded right side */}
+      <path d="M19 0h9.5a9.5 9.5 0 0 1 0 19H19V0z" />
+      {/* middle-left cell — rounded left side */}
+      <path d="M0 28.5A9.5 9.5 0 0 1 9.5 19H19v19H9.5A9.5 9.5 0 0 1 0 28.5z" />
+      {/* middle-right cell — full circle */}
+      <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" />
+      {/* bottom-left cell — rounded bottom */}
+      <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 0 1-19 0z" />
+    </svg>
+  );
+}
+
+function DownloadFormatHeader() {
+  return (
+    <div className="flex items-center justify-between gap-5">
+      <div className="flex min-w-0 items-center gap-4">
+        <div className="flex shrink-0 items-center gap-2">
+          <span className="flex size-11 items-center justify-center rounded-[9px] bg-[#ECECEC]">
+            <PowerPointMark className="size-[28.5px]" />
+          </span>
+          <span className="flex size-11 items-center justify-center rounded-[9px] bg-[#ECECEC]">
+            <FigmaMark />
+          </span>
+        </div>
+        <div className="min-w-0">
+          <p className="truncate text-[13px] font-semibold text-foreground">Arquivo PowerPoint e Figma</p>
+          <p className="mt-0.5 truncate text-[12px] text-muted-foreground">
+            Formatos .pptx e .fig editáveis
+          </p>
+        </div>
+      </div>
+      <div className="hidden shrink-0 items-center gap-2 sm:flex">
+        <span className="rounded-full bg-[#AFF000] px-3 py-1 font-mono text-[11px] font-bold text-black">
+          PPTX
+        </span>
+        <span className="rounded-full bg-[#ECECEC] px-3 py-1 font-mono text-[11px] font-bold text-black">
+          FIG
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function DownloadSlideStack({ presentation }: { presentation: CommercialPresentation }) {
+  const slides = presentation.slides.slice(0, 6);
+  const progressRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
+  const slideDivs = useRef<(HTMLDivElement | null)[]>([]);
+
+  function applyProgress(p: number) {
+    slideDivs.current.forEach((el, index) => {
+      if (!el) return;
+      const scale = Math.max(0.62, 1 - index * 0.043);
+      const y = index * (5 + p * 90);
+      const x = (index % 2 === 0 ? -1 : 1) * index * 3 * p;
+      const depth = index * (90 + p * 60);
+
+      el.style.transform = `translate3d(${x}px, ${y}px, ${-depth}px) scale(${scale})`;
+    });
+  }
+
+  useEffect(() => {
+    function updateFromScroll() {
+      const el = stackRef.current;
+      if (!el) return;
+
+      const rect = el.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || 1;
+      const start = viewportHeight * 0.6;
+      const end = viewportHeight * 0.28;
+      const next = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
+
+      if (Math.abs(next - progressRef.current) < 0.005) return;
+      progressRef.current = next;
+
+      if (rafRef.current !== null) return;
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+        applyProgress(progressRef.current);
+      });
+    }
+
+    window.addEventListener("scroll", updateFromScroll, { passive: true });
+    window.addEventListener("resize", updateFromScroll);
+    updateFromScroll();
+
+    return () => {
+      window.removeEventListener("scroll", updateFromScroll);
+      window.removeEventListener("resize", updateFromScroll);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  function onWheel(event: React.WheelEvent<HTMLDivElement>) {
+    const next = Math.max(0, Math.min(1, progressRef.current + event.deltaY / 650));
+    if (next === progressRef.current) return;
+
+    progressRef.current = next;
+
+    if (rafRef.current !== null) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      applyProgress(progressRef.current);
+    });
+  }
+
+  return (
+    <div
+      ref={stackRef}
+      className="relative mx-auto"
+      onWheel={onWheel}
+      style={{
+        width: DOWNLOAD_PREVIEW_W,
+        height: DOWNLOAD_PREVIEW_H + 360,
+        perspective: "1800px",
+        perspectiveOrigin: "50% 5%",
+      }}
+    >
+      {slides.map((slide, index) => {
+        return (
+          <div
+            key={slide.id}
+            ref={(el) => { slideDivs.current[index] = el; }}
+            className="absolute left-0 overflow-hidden rounded-[8px]"
+            style={{
+              top: 0,
+              width: DOWNLOAD_PREVIEW_W,
+              height: DOWNLOAD_PREVIEW_H,
+              zIndex: slides.length - index,
+              transformOrigin: "50% 0%",
+              willChange: "transform",
+              transform: `translate3d(0, ${index * 5}px, ${-index * 90}px) scale(${Math.max(0.62, 1 - index * 0.043)})`,
+              boxShadow: `0 ${12 + index * 4}px ${24 + index * 6}px rgba(0,0,0,${0.13 + index * 0.014})`,
+            }}
+          >
+            <div
+              className="origin-top-left"
+              style={{
+                width: SLIDE_W,
+                height: SLIDE_H,
+                transform: `scale(${DOWNLOAD_PREVIEW_SCALE})`,
+              }}
+            >
+              <PresentationSlide presentation={presentation} slide={slide} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function PowerPointDownloadSection({ presentation }: { presentation: CommercialPresentation }) {
+  return (
+    <div className="grid items-stretch gap-[30px] lg:grid-cols-[minmax(0,1.3fr)_minmax(288px,0.76fr)]">
+      <div className="flex min-h-[580px] flex-col overflow-hidden rounded-[10px] bg-white p-[30px] shadow-[var(--shadow-card)]">
+        <DownloadFormatHeader />
+
+        <div className="relative mt-8 flex h-[460px] items-start justify-center pt-8">
+          <DownloadSlideStack presentation={presentation} />
+        </div>
+      </div>
+
+      <div className="flex min-h-[580px] flex-col justify-between rounded-[10px] bg-[#0C1C16] p-[30px] text-white shadow-[var(--shadow-card)]">
+        <div>
+          <p className="font-mono text-[12px] font-bold uppercase text-[#AFF000]">
+            Versão para apresentação
+          </p>
+          <h2 className="mt-4 max-w-xl text-[44px] font-extrabold leading-[1.05] tracking-normal">
+            Esta apresentação está disponível em PowerPoint e Figma.
+          </h2>
+          <p className="mt-5 max-w-lg text-[16px] leading-7 text-white/72">
+            Baixe os arquivos editáveis para apresentar, adaptar textos, revisar páginas e levar o material para reuniões comerciais.
+          </p>
+        </div>
+
+        <div className="mt-10 flex flex-col gap-4">
+          <div className="grid grid-cols-3 gap-2 border-y border-white/10 py-4">
+            <div>
+              <p className="font-mono text-[11px] font-bold text-white/40">SLIDES</p>
+              <p className="mt-1 text-[18px] font-bold">{presentation.slides.length}</p>
+            </div>
+            <div>
+              <p className="font-mono text-[11px] font-bold text-white/40">FORMATO</p>
+              <p className="mt-1 text-[18px] font-bold">16:9</p>
+            </div>
+            <div>
+              <p className="font-mono text-[11px] font-bold text-white/40">ARQUIVOS</p>
+              <p className="mt-1 text-[18px] font-bold">.pptx / .fig</p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <a
+              href="/Slide-Masi-Negocios-Demo.pptx"
+              download="Slide Masi Negocios Demo.pptx"
+              className="flex h-12 items-center gap-2 rounded-[8px] bg-white px-5 text-[14px] font-bold text-black transition hover:opacity-80"
+            >
+              <Download className="size-4" />
+              Download PowerPoint
+            </a>
+            <a
+              href="/Slide-Masi-Negocios-Demo.fig"
+              download="Slide Masi Negocios Demo.fig"
+              className="flex h-12 items-center gap-2 rounded-[8px] bg-white/10 px-5 text-[14px] font-bold text-white transition hover:opacity-80"
+            >
+              <Download className="size-4" />
+              Download Figma
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Home() {
@@ -335,6 +593,13 @@ export default function Home() {
         </div>
 
         <nav className="flex flex-col gap-1">
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="block rounded-[10px] px-3 py-2.5 text-[13px] font-medium text-foreground transition hover:bg-black/5"
+          >
+            Início
+          </Link>
           {allPresentations.map((p) => (
             <Link
               key={p.id}
@@ -356,7 +621,7 @@ export default function Home() {
 
       {/* Floating navbar */}
       <header
-        className="fixed z-30 flex items-center justify-between rounded-[10px] bg-[#ececec]"
+        className="fixed z-30 flex items-center justify-between rounded-[10px] bg-[#ececec] border border-white"
         style={{
           top: NAV_TOP,
           left: NAV_X,
@@ -370,15 +635,23 @@ export default function Home() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={BRAND_LOGO_URL} alt="Masi Negócios" className="h-[19px] w-auto" />
         </Link>
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Abrir menu"
-          className="rounded-[10px] p-1.5 transition-colors hover:bg-black/5"
-        >
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </button>
+        <div className="flex min-w-0 items-center gap-3">
+          <a
+            href="https://www.masinegocios.com.br/design-system"
+            className="whitespace-nowrap rounded-[8px] px-3 py-2 text-[13px] font-semibold text-foreground transition-colors hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
+          >
+            Design System
+          </a>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Abrir menu"
+            className="rounded-[10px] p-1.5 transition-colors hover:bg-black/5"
+          >
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
       </header>
 
       {/* Main content — cresce com a viewport, sem limite artificial */}
@@ -433,16 +706,24 @@ export default function Home() {
             <Section
               title="Apresentação Demo"
               subtitle="Esta apresentação segue o estilo visual de section, de card e de imagem."
+              centered
+              hideSeparator
             >
-              <HomePresentationPanel presentation={presentation} />
+              <div className="mx-auto w-[90%]">
+                <HomePresentationPanel presentation={presentation} />
+              </div>
             </Section>
 
-            {/* Section 3 — Mapeamento de Páginas */}
+            {/* Section 3 — PowerPoint e Figma */}
             <Section
-              title="Mapeamento de Páginas"
-              subtitle="Cada tipo de página define a estrutura visual e os limites de caracteres para título, corpo, citações e cards. Use este mapa para encaixar o conteúdo no tipo de página certo."
+              title="PowerPoint e Figma"
+              subtitle="Além da visualização interativa, a apresentação pode ser disponibilizada como arquivo editável para uso em reuniões, propostas e ajustes de design."
+              centered
+              hideSeparator
             >
-              <PageMappingSection />
+              <div className="mx-auto w-[90%]">
+                <PowerPointDownloadSection presentation={presentation} />
+              </div>
             </Section>
           </div>
         </main>

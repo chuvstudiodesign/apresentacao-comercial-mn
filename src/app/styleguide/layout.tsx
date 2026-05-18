@@ -147,20 +147,28 @@ export default function StyleguideLayout({
           />
         </Link>
 
-        <button
-          onClick={() => setMobileOpen(true)}
-          aria-label="Abrir menu"
-          className="rounded-[10px] p-1.5 transition-colors hover:bg-black/5"
-        >
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <path
-              d="M3 6h16M3 11h16M3 16h16"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
+        <div className="flex min-w-0 items-center gap-3">
+          <a
+            href="https://www.masinegocios.com.br/design-system"
+            className="whitespace-nowrap rounded-[8px] px-3 py-2 text-[13px] font-semibold text-foreground transition-colors hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
+          >
+            Design System
+          </a>
+          <button
+            onClick={() => setMobileOpen(true)}
+            aria-label="Abrir menu"
+            className="rounded-[10px] p-1.5 transition-colors hover:bg-black/5"
+          >
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path
+                d="M3 6h16M3 11h16M3 16h16"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        </div>
       </header>
 
       {/* ── Mobile overlay ── */}

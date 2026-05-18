@@ -9,6 +9,10 @@ import { commercialPresentations, userPresentations } from "@/data/commercial-pr
 import type { CommercialPresentation } from "@/data/commercial-presentations";
 import { SlideViewport } from "@/components/commercial-presentations/SlideViewport";
 import { ChamferedPanel } from "@/components/chamfered-panel";
+import {
+  QuemSomosEditableSlide,
+  QuemSomosPresentationEditor,
+} from "@/components/commercial-presentations/editor/QuemSomosPresentationEditor";
 
 const BRAND_LOGO_URL =
   "https://raw.githubusercontent.com/chuvstudiodesign/logos-masi-negocios/71ad67702f1e8fc61061ef81a2e9f372788e7dab/Negocios.svg";
@@ -26,6 +30,7 @@ function PresentationPanel({ presentation }: { presentation: CommercialPresentat
   const [viewportHeight, setViewportHeight] = useState(0);
   const viewportWrapRef = useRef<HTMLDivElement>(null);
   const currentSlide = presentation.slides[currentIndex] ?? presentation.slides[0];
+  const isQuemSomos = presentation.slug === "quem-somos-masi-negocios";
 
   useEffect(() => {
     const el = viewportWrapRef.current;
@@ -42,7 +47,11 @@ function PresentationPanel({ presentation }: { presentation: CommercialPresentat
     <div className="flex items-start gap-0" style={{ maxWidth: 2200 }}>
       <div className="flex min-w-0 flex-1 flex-col">
         <div ref={viewportWrapRef}>
-          <SlideViewport presentation={presentation} slide={currentSlide} />
+          {isQuemSomos ? (
+            <QuemSomosEditableSlide presentation={presentation} slide={currentSlide} />
+          ) : (
+            <SlideViewport presentation={presentation} slide={currentSlide} />
+          )}
         </div>
         <div className="mt-3 flex items-center justify-between">
           <span className="rounded-full bg-[#ECECEC] px-4 py-2 font-mono text-[12px] font-bold text-foreground">
@@ -182,6 +191,13 @@ export default function PresentationPage({ params }: { params: Promise<{ slug: s
         </div>
 
         <nav className="flex flex-col gap-1">
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="block rounded-[10px] px-3 py-2.5 text-[13px] font-medium text-foreground transition hover:bg-black/5"
+          >
+            Início
+          </Link>
           {allPresentations.map((item) => (
             <Link
               key={item.id}
@@ -199,22 +215,30 @@ export default function PresentationPage({ params }: { params: Promise<{ slug: s
       </aside>
 
       <header
-        className="fixed z-30 flex items-center justify-between rounded-[10px] bg-[#ececec]"
+        className="fixed z-30 flex items-center justify-between rounded-[10px] border border-white bg-[#ececec]"
         style={{ top: NAV_TOP, left: NAV_X, right: NAV_X, height: NAV_H, paddingLeft: NAV_X, paddingRight: NAV_X }}
       >
         <Link href="/" className="block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={BRAND_LOGO_URL} alt="Masi Negócios" className="h-[19px] w-auto" />
         </Link>
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Abrir menu"
-          className="rounded-[10px] p-1.5 transition-colors hover:bg-black/5"
-        >
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </button>
+        <div className="flex min-w-0 items-center gap-3">
+          <a
+            href="https://www.masinegocios.com.br/design-system"
+            className="whitespace-nowrap rounded-[8px] px-3 py-2 text-[13px] font-semibold text-foreground transition-colors hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
+          >
+            Design System
+          </a>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Abrir menu"
+            className="rounded-[10px] p-1.5 transition-colors hover:bg-black/5"
+          >
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
       </header>
 
       <div className="px-[30px] pb-[30px]" style={{ paddingTop: NAV_TOP + NAV_H + NAV_TOP }}>
@@ -234,7 +258,13 @@ export default function PresentationPage({ params }: { params: Promise<{ slug: s
                       <p className="ds-section-subtitle">{presentation.subtitle}</p>
                     )}
                   </div>
-                  <PresentationPanel presentation={presentation} />
+                  {presentation.slug === "quem-somos-masi-negocios" ? (
+                    <QuemSomosPresentationEditor presentation={presentation}>
+                      <PresentationPanel presentation={presentation} />
+                    </QuemSomosPresentationEditor>
+                  ) : (
+                    <PresentationPanel presentation={presentation} />
+                  )}
                 </div>
               </ChamferedPanel>
             </section>

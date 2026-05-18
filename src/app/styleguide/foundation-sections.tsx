@@ -22,23 +22,27 @@ export function Section({
   subtitle,
   children,
   first = false,
+  centered = false,
+  hideSeparator = false,
 }: {
   title: string;
   eyebrow?: string;
   subtitle?: string;
   children: ReactNode;
   first?: boolean;
+  centered?: boolean;
+  hideSeparator?: boolean;
 }) {
   const content = (
     <>
-      <div className="mb-5">
+      <div className={`${hideSeparator ? "mb-[var(--section-padding-y)]" : "mb-5"}${centered ? " text-center" : ""}`}>
         {eyebrow && (
           <p className="ds-caption mb-2 text-primary">{eyebrow}</p>
         )}
         <h1 className="ds-section-title">{title}</h1>
         {subtitle && <p className="ds-section-subtitle">{subtitle}</p>}
       </div>
-      <Separator className="mb-6 bg-white" />
+      {!hideSeparator && <Separator className="mb-6 bg-white" />}
       {children}
     </>
   );

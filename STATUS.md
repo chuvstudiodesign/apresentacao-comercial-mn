@@ -26,9 +26,10 @@
 ### Interface (app)
 - Página inicial: hero com animação de digitação + slides empilhados com scroll-fan
 - Section 2: Apresentação Demo com sidebar colapsável e thumbnails verticais
-- Section 3: Mapeamento de Páginas (20 tipos com limites de caracteres)
+- Section 3: PowerPoint e Figma com preview do deck e botões de download em mock
 - Menu hambúrguer funcional com lista de apresentações
 - Rota dinâmica `/apresentacao/[slug]` para cada apresentação
+- Mapeamento de Páginas mantido apenas como regra interna em `PRESENTATION-SYSTEM.md`
 
 ### Apresentação de exemplo
 - "Modelo de Gestão" criada com 23 slides em `user-presentations.ts`
