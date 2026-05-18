@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { commercialPresentations, userPresentations } from "@/data/commercial-presentations";
 import type { CommercialPresentation } from "@/data/commercial-presentations";
 import { SlideViewport } from "@/components/commercial-presentations/SlideViewport";
+import { QuemSomosFrozenSlide } from "@/components/commercial-presentations/QuemSomosFrozenSlide";
 import { ChamferedPanel } from "@/components/chamfered-panel";
 
 const BRAND_LOGO_URL =
@@ -26,6 +27,7 @@ function PresentationPanel({ presentation }: { presentation: CommercialPresentat
   const [viewportHeight, setViewportHeight] = useState(0);
   const viewportWrapRef = useRef<HTMLDivElement>(null);
   const currentSlide = presentation.slides[currentIndex] ?? presentation.slides[0];
+  const isQuemSomos = presentation.slug === "quem-somos-masi-negocios";
 
   useEffect(() => {
     const el = viewportWrapRef.current;
@@ -42,7 +44,11 @@ function PresentationPanel({ presentation }: { presentation: CommercialPresentat
     <div className="flex items-start gap-0" style={{ maxWidth: 2200 }}>
       <div className="flex min-w-0 flex-1 flex-col">
         <div ref={viewportWrapRef}>
-          <SlideViewport presentation={presentation} slide={currentSlide} />
+          {isQuemSomos ? (
+            <QuemSomosFrozenSlide presentation={presentation} slide={currentSlide} />
+          ) : (
+            <SlideViewport presentation={presentation} slide={currentSlide} />
+          )}
         </div>
         <div className="mt-3 flex items-center justify-end md:justify-between">
           <span className="hidden md:inline-flex rounded-full bg-[#ECECEC] px-4 py-2 font-mono text-[12px] font-bold text-foreground">

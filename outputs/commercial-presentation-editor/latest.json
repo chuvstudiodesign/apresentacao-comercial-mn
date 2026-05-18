@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-05-18T06:20:17.363Z",
+  "savedAt": "2026-05-18T17:02:42.548Z",
   "version": 1,
   "presentationSlug": "quem-somos-masi-negocios",
   "slides": [
@@ -20,10 +20,10 @@
         }
       },
       "image": {
-        "x": 696.477341389728,
+        "x": 639.0727612370563,
         "y": 25.35951661631421,
-        "width": 826.5377643504531,
-        "height": 740.5196374622356
+        "width": 883.9423445031249,
+        "height": 736.855515324831
       },
       "texts": {
         "title": "Quem\nSomos",
